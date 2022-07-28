@@ -9,6 +9,8 @@ public class FasterSudokuSolver {
     public static final int BOX_SIZE = 3;
     // 4 Constraints: position, row, column, and box
     public static final int CONSTRAINTS = 4;
+    
+    int Grid[][];
 
     public static void main(String[] args) {
 
@@ -28,17 +30,25 @@ public class FasterSudokuSolver {
         printGrid(grid);
         System.out.println();
 
+        FasterSudokuSolver sudoku = new FasterSudokuSolver();
+        
         long startTime = System.currentTimeMillis();
-        int[][] solution = solveGrid(grid);
+        int[][] solvedGrid = sudoku.solveGrid();
         long endTime = System.currentTimeMillis();
         System.out.println("Solved successfully!");
         String time = String.format("Time: %d milliseconds", endTime - startTime);
         System.out.println(time);
         System.out.println();
 
-        printGrid(grid);
+        printGrid(solvedGrid);
         System.out.println();
 
+    }
+
+    public int[][] solveGrid() {
+        DancingLinks solution = new DancingLinks(Grid);
+        int[][] solvedGrid = solution.runAlg(Grid);
+        return solvedGrid;
     }
 
     private static void printGrid(int[][] grid) {
@@ -73,8 +83,8 @@ public class FasterSudokuSolver {
     private int[][] buildCoverMatrix() {
         int[][] coverMatrix =
             new int[GRID_SIZE * GRID_SIZE * GRID_SIZE][GRID_SIZE * GRID_SIZE * CONSTRAINTS];
-        
             int header = 0;
+        
         header = createCellConstraints(coverMatrix, header);
         header = createRowConstraints(coverMatrix, header);
         header = createColumnConstraints(coverMatrix, header);
@@ -301,85 +311,85 @@ public class FasterSudokuSolver {
         }
 
     
-    // Implement Algorithm X (see README.md)
-    private void algx(int i) {
-        if (header.right == header) {
-            // Algorithm terminates and result is copied
-            fullSolution = new LinkedList<>(partSolution);
+        // Implement Algorithm X (see README.md)
+        private void algx(int i) {
+            if (header.right == header) {
+                // Algorithm terminates and result is copied
+                fullSolution = new LinkedList<>(partSolution);
+            }
+            else {
+                // Choose the next column c with the minimum number of 1s
+                ColumnNode maincol = selectMinColumn();
+                maincol.cover();
+
+                for (Node row = maincol.down; row != maincol; row = row.down) {
+                    // Add this row to the partial solution
+                    partSolution.add(row);
+                    
+                    // Cover the columns
+                    for (Node col = row.right; col != row; col = col.right) {
+                        col.column.cover();
+                    }
+                    
+                    // Recursively repeat Algorithm X on reduced matrix
+                    algx(i + 1);
+                    
+                    // If algorithm ends unsuccessfully, backtrack
+                    row = partSolution.remove(partSolution.size() - 1);
+                    maincol = row.column;
+
+                    // Uncover the columns
+                    for (Node col = row.left; col != row; col = col.left) {
+                        col.column.uncover();
+                    }
+                }
+
+                maincol.uncover();
+            }
         }
-        else {
-            // Choose the next column c with the minimum number of 1s
-            ColumnNode maincol = selectMinColumn();
-            maincol.cover();
 
-            for (Node row = maincol.down; row != maincol; row = row.down) {
-                // Add this row to the partial solution
-                partSolution.add(row);
-                
-                // Cover the columns
-                for (Node col = row.right; col != row; col = col.right) {
-                    col.column.cover();
-                }
-                
-                // Recursively repeat Algorithm X on reduced matrix
-                algx(i + 1);
-                
-                // If algorithm ends unsuccessfully, backtrack
-                row = partSolution.remove(partSolution.size() - 1);
-                maincol = row.column;
+        // STEP FOUR:
+        // Convert the linked list back to a sudoku grid
 
-                // Uncover the columns
-                for (Node col = row.left; col != row; col = col.left) {
-                    col.column.uncover();
+        private int[][] convertToSudokuGrid(List<Node> partSolution) {
+            int[][] fullSolution = new int[GRID_SIZE][GRID_SIZE];
+
+            for (Node n : partSolution) {
+                Node rowColNode = n;
+                int min = Integer.parseInt(rowColNode.column.name);
+
+                for (Node temp = n.right; temp != n; temp = temp.right) {
+                    int val = Integer.parseInt(temp.column.name);
+
+                    if (val < min) {
+                        min = val;
+                        rowColNode = temp;
+                    }
                 }
+
+                int rowCol = Integer.parseInt(rowColNode.column.name);
+                int val = Integer.parseInt(rowColNode.right.column.name);
+                int row = rowCol / GRID_SIZE;
+                int col = rowCol % GRID_SIZE;
+                int num = (val % GRID_SIZE) + 1;
+                fullSolution[row][col] = num;
             }
 
-            maincol.uncover();
-        }
-    }
-}
-
-
-    // STEP FOUR:
-    // Convert the linked list back to a sudoku grid
-
-    private int[][] convertToSudokuGrid(List<Node> partSolution) {
-        int[][] fullSolution = new int[GRID_SIZE][GRID_SIZE];
-
-        for (Node n : partSolution) {
-            Node rowColNode = n;
-            int min = Integer.parseInt(rowColNode.column.name);
-
-            for (Node temp = n.right; temp != n; temp = temp.right) {
-                int val = Integer.parseInt(temp.column.name);
-
-                if (val < min) {
-                    min = val;
-                    rowColNode = temp;
-                }
-            }
-
-            int rowCol = Integer.parseInt(rowColNode.column.name);
-            int val = Integer.parseInt(rowColNode.right.column.name);
-            int row = rowCol / GRID_SIZE;
-            int col = rowCol % GRID_SIZE;
-            int num = (val % GRID_SIZE) + 1;
-            fullSolution[row][col] = num;
+            return fullSolution;
         }
 
-        return fullSolution;
-    }
 
+        // STEP FIVE:
+        // Solve by 1). Converting sudoku to cover matrix,
+        // 2). Applying dancing links to cover matrix,
+        // 3). Converting dancing links linked list to sudoku grid
 
-    // STEP FIVE:
-    // Solve by 1). Converting sudoku to cover matrix,
-    // 2). Applying dancing links to cover matrix,
-    // 3). Converting dancing links linked list to sudoku grid
-
-    private void solveGrid(int[][] grid) {
-        int[][] cover = convertToCoverMatrix(grid);
-        DancingLinks dlx = new DancingLinks(cover);
-        algx(0);
-        int[][] solvedGrid = convertToSudokuGrid(dlx.fullSolution);
+        private int[][] runAlg(int[][] grid) {
+            int[][] cover = convertToCoverMatrix(grid);
+            DancingLinks dlx = new DancingLinks(cover);
+            algx(0);
+            int[][] solvedGrid = convertToSudokuGrid(dlx.fullSolution);
+            return solvedGrid;
+        }
     }
 }

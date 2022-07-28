@@ -41,7 +41,10 @@ public class NaiveSudokuSolver {
     private static void printGrid(int[][] grid) {
         for (int row = 0; row < GRID_SIZE; row++) {
             if (row % BOX_SIZE == 0 && row != 0) {
-                System.out.println("-----------");
+                for (int i = 0; i < GRID_SIZE + BOX_SIZE - 1; i++) {
+                    System.out.print("-");
+                }
+                System.out.println();
             }
             for (int col = 0; col < GRID_SIZE; col++) {
                 if (col % BOX_SIZE == 0 && col != 0) {
