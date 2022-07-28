@@ -1,19 +1,21 @@
-public class SudokuSolver {
+public class NaiveSudokuSolver {
 
     public static final int GRID_SIZE = 9;
     public static final int BOX_SIZE = 3;
     public static void main(String[] args) {
 
+        // 3x3 test grid set to the "world's hardest sudoku" created by Arto Inkala in 2012
+        // Average solve time = 30.5 milliseconds
         int[][] grid = {
-            {7, 0, 2, 0, 5, 0, 6, 0, 0},
-            {0, 0, 0, 0, 0, 3, 0, 0, 0},
-            {1, 0, 0, 0, 0, 9, 5, 0, 0},
-            {8, 0, 0, 0, 0, 0, 0, 9, 0},
-            {0, 4, 3, 0, 0, 0, 7, 5, 0},
-            {0, 9, 0, 0, 0, 0, 0, 0, 8},
-            {0, 0, 9, 7, 0, 0, 0, 0, 5},
-            {0, 0, 0, 2, 0, 0, 0, 0, 0},
-            {0, 0, 7, 0, 4, 0, 2, 0, 3}
+            {8, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 3, 6, 0, 0, 0, 0, 0},
+            {0, 7, 0, 0, 9, 0, 2, 0, 0},
+            {0, 5, 0, 0, 0, 7, 0, 0, 0},
+            {0, 0, 0, 0, 4, 5, 7, 0, 0},
+            {0, 0, 0, 1, 0, 0, 0, 3, 0},
+            {0, 0, 1, 0, 0, 0, 0, 6, 8},
+            {0, 0, 8, 5, 0, 0, 0, 1, 0},
+            {0, 9, 0, 0, 0, 0, 4, 0, 0}
         };
 
         printGrid(grid);
@@ -38,11 +40,11 @@ public class SudokuSolver {
 
     private static void printGrid(int[][] grid) {
         for (int row = 0; row < GRID_SIZE; row++) {
-            if (row % 3 == 0 && row != 0) {
+            if (row % BOX_SIZE == 0 && row != 0) {
                 System.out.println("-----------");
             }
             for (int col = 0; col < GRID_SIZE; col++) {
-                if (col % 3 == 0 && col != 0) {
+                if (col % BOX_SIZE == 0 && col != 0) {
                     System.out.print("|");
                 }
                 System.out.print(grid[row][col]);
@@ -51,9 +53,9 @@ public class SudokuSolver {
         }
     }
 
-    private static boolean numberInRow(int[][] grid, int number, int row) {
+    private static boolean numberInRow(int[][] grid, int num, int row) {
         for (int i = 0; i < GRID_SIZE; i++) {
-            if (grid[row][i] == number) {
+            if (grid[row][i] == num) {
                 return true;
             }
         }
