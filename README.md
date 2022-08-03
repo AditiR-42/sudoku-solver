@@ -19,7 +19,7 @@ Algorithm X works as follows:
         delete column j from matrix A.
     5. Repeat this algorithm recursively on the reduced matrix A."
 
-The Dancing Links technique allows us to apply Algorithm X to binary matrices. Dancing Links represent a binary matrix as a doubly circular linked list, where each node contains pointers to its previous node as well as the next node, and the first and last nodes contain each other's addresses in their previous and next pointers, respectively. So each node removed has all the information you need to easily add it back (in cases where we need to backtrack).
+The Dancing Links technique allows us to apply Algorithm X to binary matrices. Dancing Links represent a binary matrix as a doubly circular linked list, where each node contains pointers to its previous node as well as the next node, and the first and last nodes contain each other's addresses in their previous and next pointers, respectively. When a node is removed, adjacent nodes are updated to point to each other, thus unlinking the node. The removed node retains its links to adjacent nodes, so it can easily be added back into the binary matrix (in cases where we need to backtrack to find another solution).
 
 -----------------------------------------------------
 
@@ -27,5 +27,5 @@ References:
 https://en.wikipedia.org/wiki/Knuth%27s_Algorithm_X
 https://www.geeksforgeeks.org/exact-cover-problem-algorithm-x-set-1/ 
 https://www.geeksforgeeks.org/exact-cover-problem-algorithm-x-set-2-implementation-dlx/ 
-https://www.ocf.berkeley.edu/~jchu/publicportal/sudoku/sudoku.paper.html#mySolver 
+https://www.ocf.berkeley.edu/~jchu/publicportal/sudoku/sudoku.paper.html#mySolver
 https://medium.com/javarevisited/building-a-sudoku-solver-in-java-with-dancing-links-180274b0b6c1
