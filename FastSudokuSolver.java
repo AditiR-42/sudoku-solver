@@ -31,9 +31,11 @@ public class FastSudokuSolver {
             {11, 0, 16, 5, 1, 0, 0, 13, 0, 8, 0, 0, 0, 25, 0, 0, 0, 10, 0, 14, 0, 0, 24, 2, 23}
         };
         
+        System.out.println();
         printOriginalGrid(grid);
         SolveCoverMatrix newSudoku = new SolveCoverMatrix();
         newSudoku.solve(grid);
+        System.out.println();
     }
 
     private static void printOriginalGrid(int[][] grid) {
@@ -41,16 +43,18 @@ public class FastSudokuSolver {
         int BOX_SIZE = (int) Math.sqrt(grid.length);
         for (int row = 0; row < GRID_SIZE; row++) {
             if (row % BOX_SIZE == 0 && row != 0) {
-                for (int i = 0; i < GRID_SIZE + BOX_SIZE - 1; i++) {
+                for (int i = 0; i < GRID_SIZE * 3 + BOX_SIZE; i++) {
                     System.out.print("-");
                 }
                 System.out.println();
             }
             for (int col = 0; col < GRID_SIZE; col++) {
                 if (col % BOX_SIZE == 0 && col != 0) {
-                    System.out.print("|");
+                    System.out.print("| ");
                 }
-                System.out.print(grid[row][col]);
+                String num = String.format("%02d", grid[row][col]);
+                System.out.print(num);
+                System.out.print(" ");
             }
             System.out.println();
         }

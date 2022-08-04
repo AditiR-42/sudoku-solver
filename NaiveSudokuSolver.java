@@ -20,6 +20,10 @@ public class NaiveSudokuSolver {
         GRID_SIZE = grid.length;
         BOX_SIZE = (int) Math.sqrt(grid.length);
 
+        System.out.println();
+        printSolvedGrid(grid);
+        System.out.println();
+
         long startTime = System.currentTimeMillis();
         if (solveGrid(grid)) {
             long endTime = System.currentTimeMillis();
@@ -40,16 +44,18 @@ public class NaiveSudokuSolver {
     private static void printSolvedGrid(int[][] grid) {
         for (int row = 0; row < GRID_SIZE; row++) {
             if (row % BOX_SIZE == 0 && row != 0) {
-                for (int i = 0; i < GRID_SIZE + BOX_SIZE - 1; i++) {
+                for (int i = 0; i < GRID_SIZE * 3 + BOX_SIZE; i++) {
                     System.out.print("-");
                 }
                 System.out.println();
             }
             for (int col = 0; col < GRID_SIZE; col++) {
                 if (col % BOX_SIZE == 0 && col != 0) {
-                    System.out.print("|");
+                    System.out.print("| ");
                 }
-                System.out.print(grid[row][col]);
+                String num = String.format("%02d", grid[row][col]);
+                System.out.print(num);
+                System.out.print(" ");
             }
             System.out.println();
         }
