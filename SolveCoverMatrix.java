@@ -105,12 +105,14 @@ public class SolveCoverMatrix {
         return header;
     }
 
+    // Solve by converting sudoku to cover matrix and applying dancing links
     public void solve(int[][] grid) {
         printGrid(grid);
         System.out.println();
 
         long startTime = System.currentTimeMillis();
         DancingLinks links = new DancingLinks(convertToCoverMatrix(grid));
+        // Run Algorithm X on the linked list
         links.algorithmX(0);
         long endTime = System.currentTimeMillis();
         System.out.println("Solved successfully!");
@@ -124,7 +126,7 @@ public class SolveCoverMatrix {
     private void printGrid(int[][] grid) {
         for (int row = 0; row < GRID_SIZE; row++) {
             if (row % BOX_SIZE == 0 && row != 0) {
-                for (int i = 0; i < GRID_SIZE * 3 + BOX_SIZE; i++) {
+                for (int i = 0; i < GRID_SIZE * 3 + BOX_SIZE * 2 - 3; i++) {
                     System.out.print("-");
                 }
                 System.out.println();

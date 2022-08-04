@@ -43,7 +43,7 @@ public class FastSudokuSolver {
         int BOX_SIZE = (int) Math.sqrt(grid.length);
         for (int row = 0; row < GRID_SIZE; row++) {
             if (row % BOX_SIZE == 0 && row != 0) {
-                for (int i = 0; i < GRID_SIZE * 3 + BOX_SIZE; i++) {
+                for (int i = 0; i < GRID_SIZE * 3 + BOX_SIZE * 2 - 3; i++) {
                     System.out.print("-");
                 }
                 System.out.println();
