@@ -1,5 +1,6 @@
 
 
+
 public class ColumnNode extends Node {
     public int size;
     private final int name;

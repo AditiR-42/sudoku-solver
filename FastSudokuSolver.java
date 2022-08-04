@@ -1,3 +1,4 @@
+
 public class FastSudokuSolver {
 
     public static void main(String[] args) {
