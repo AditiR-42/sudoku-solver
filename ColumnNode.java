@@ -1,4 +1,4 @@
-package dancinglinks;
+
 
 public class ColumnNode extends Node {
     public int size;

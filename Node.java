@@ -1,4 +1,4 @@
-package dancinglinks;
+
 
 public class Node {
     public Node up;

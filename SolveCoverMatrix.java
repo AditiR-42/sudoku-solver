@@ -1,9 +1,6 @@
 import java.util.Arrays;
 import java.util.List;
 
-import dancinglinks.DancingLinks;
-import dancinglinks.Node;
-
 public class SolveCoverMatrix {
     private final int EMPTY_CELL = 0;
     private final int CONSTRAINTS = 4;
