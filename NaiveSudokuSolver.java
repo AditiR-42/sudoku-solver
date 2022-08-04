@@ -1,11 +1,10 @@
 public class NaiveSudokuSolver {
 
-    public static final int GRID_SIZE = 9;
-    public static final int BOX_SIZE = 3;
+    public static int GRID_SIZE;
+    public static int BOX_SIZE;
     public static void main(String[] args) {
 
         // 3x3 test grid set to the "world's hardest sudoku" created by Arto Inkala in 2012
-        // Average solve time = 30.5 milliseconds
         int[][] grid = {
             {8, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 3, 6, 0, 0, 0, 0, 0},
@@ -18,8 +17,8 @@ public class NaiveSudokuSolver {
             {0, 9, 0, 0, 0, 0, 4, 0, 0}
         };
 
-        printGrid(grid);
-        System.out.println();
+        GRID_SIZE = grid.length;
+        BOX_SIZE = (int) Math.sqrt(grid.length);
 
         long startTime = System.currentTimeMillis();
         if (solveGrid(grid)) {
@@ -33,12 +32,12 @@ public class NaiveSudokuSolver {
             System.out.println("Board unsolvable");
         }
 
-        printGrid(grid);
+        printSolvedGrid(grid);
         System.out.println();
 
     }
 
-    private static void printGrid(int[][] grid) {
+    private static void printSolvedGrid(int[][] grid) {
         for (int row = 0; row < GRID_SIZE; row++) {
             if (row % BOX_SIZE == 0 && row != 0) {
                 for (int i = 0; i < GRID_SIZE + BOX_SIZE - 1; i++) {

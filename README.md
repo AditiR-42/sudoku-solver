@@ -1,9 +1,19 @@
-Naive Sudoku Solver:
-Uses a recursive backtracking algorithm.
+Average Solve Time Comparison:
+9x9: Naive (31 ms) vs. Fast (20 ms)
+16x16: Naive (10+ min) vs. Fast (115 ms)
+25x25: Naive (too long) vs. Fast (460 ms)
 
 -----------------------------------------------------
 
-Faster Sudoku Solver:
+Naive Sudoku Solver:
+Uses a recursive backtracking algorithm.
+
+To Test:
+Compile and run NaiveSudokuSolver.java, replacing the grid with a sample grid if desired.
+
+-----------------------------------------------------
+
+Fast Sudoku Solver:
 Applies Donald Knuth's Algorithm X and Dancing Links technique to the Exact Cover problem. 
 
 Given a matrix A consisting of 0s and 1s, the goal of the Exact Cover problem is to choose a subset of rows such that 1 appears in each column only once.
@@ -20,6 +30,9 @@ Algorithm X works as follows:
     5. Repeat this algorithm recursively on the reduced matrix A."
 
 The Dancing Links technique allows us to apply Algorithm X to binary matrices. Dancing Links represent a binary matrix as a doubly circular linked list, where each node contains pointers to its previous node as well as the next node, and the first and last nodes contain each other's addresses in their previous and next pointers, respectively. When a node is removed, adjacent nodes are updated to point to each other, thus unlinking the node. The removed node retains its links to adjacent nodes, so it can easily be added back into the binary matrix (in cases where we need to backtrack to find another solution).
+
+To Test:
+Compile and run FastSudokuSolver.java, replacing the grid with a sample grid if desired.
 
 -----------------------------------------------------
 
