@@ -36,6 +36,8 @@ If the matrix A has no columns, the current partial solution is a valid solution
 
 The ***Dancing Links*** technique allows us to apply ***Algorithm X*** to binary matrices. ***Dancing Links*** represent a binary matrix as a doubly circular linked list, where each node contains pointers to its previous node as well as the next node, and the first and last nodes contain each other's addresses in their previous and next pointers, respectively. When a node is removed, adjacent nodes are updated to point to each other, thus unlinking the node. The removed node retains its links to adjacent nodes, so it can easily be added back into the binary matrix (in cases where we need to backtrack to find another solution).
 
+***The overall solving process*** first converts a sudoku grid into a ***cover matrix***, where each number's position is represented in 0s and 1s, along with the 4 constraints of there being a certain number of digits and each digit appearing exactly once in each row, column, and box. Second, convert the cover matrix into a doubly circular linked list, using the ***Dancing Links*** technique. Third, apply ***Algorithm X*** to the linked list to find an ***Exact Cover*** (or the solution) for the sudoku. ***Dancing Links*** allows us to easily backtrack (and uncover or cover) as needed. Finally, convert the linked list solution back to a sudoku grid.  
+
 ***To Test:***
 
 Compile and run FastSudokuSolver.java, replacing the grid with a new sample grid if desired.
